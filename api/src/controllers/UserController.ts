@@ -1,23 +1,18 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { User } from "../models/user";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const prismaClient = new PrismaClient();
     const { name, user, password } = request.body;
 
-    await prismaClient.$connect();
-    const post = await prismaClient.users.create({
-      data: {
-        name,
-        user,
-        password,
-      }
+    const userCreated = await User.create({
+      name,
+      user,
+      password
     });
-    await prismaClient.$disconnect();
 
     return response.json({
-      user: post
+      user: userCreated
     });
   }
 }
