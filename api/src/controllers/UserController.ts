@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../models/user";
+import { User } from "../models/User";
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -14,6 +14,12 @@ class UserController {
     return response.json({
       user: userCreated
     });
+  }
+
+  async index(request: Request, response: Response) {
+    const users = await User.find();
+
+    return response.json(users);
   }
 }
 
