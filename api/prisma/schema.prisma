@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client-js"
+  transactions = false
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id String @id @default(uuid()) @map("_id")
+
+  name String
+
+  user String
+
+  password String
+
+  // funkos Funkos[]
+}
+
+model Funkos {
+  id String @id @default(uuid()) @map("_id")
+
+  description String
+
+  value Float
+
+  url String
+
+  sale Boolean
+
+  // User   User   @relation(fields: [userId], references: [id])
+  // userId String
+}
