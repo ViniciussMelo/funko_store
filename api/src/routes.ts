@@ -4,13 +4,17 @@ import express from "express";
 import uploadConfig from "./config/uploadConfig";
 import { FunkoController } from "./controllers/FunkoController";
 import UserController from "./controllers/UserController"
+import { SessionController } from "./controllers/SessionController";
 
-const userController = new UserController();
+const sessionController = new SessionController();
 const funkoController = new FunkoController();
+const userController = new UserController();
 
 const uploadFunkoImg = multer(uploadConfig);
 
 const routes = express.Router();
+
+routes.post('/login', sessionController.verify);
 
 routes.post('/user', userController.create);
 routes.get('/user', userController.index);

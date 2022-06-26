@@ -19,9 +19,10 @@ const Login = () => {
 
   const onFinish = async ({ username, password }: LoginInterface) => {
     try {
-      await LoginService.verify({ username, password });
+      const { data } = await LoginService.verify({ username, password });
       
-      localStorage.setItem('username', username);
+      localStorage.setItem('userName', username);
+      localStorage.setItem('userId', data.userId);
 
       sendToCreateHero();
     } catch (err) {
@@ -35,9 +36,9 @@ const Login = () => {
 
   useEffect(() => {
     if (username) {
-      localStorage.removeItem('username');
+      localStorage.removeItem('userName');
     } else {
-      const storageUser = localStorage.getItem('username');
+      const storageUser = localStorage.getItem('userName');
   
       if (storageUser) sendToCreateHero();
     }
