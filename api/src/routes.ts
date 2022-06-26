@@ -16,7 +16,9 @@ const routes = express.Router();
 
 routes.post('/login', sessionController.verify);
 
+routes.delete('/user/:id', userController.delete);
 routes.get('/user/:id', userController.getById);
+routes.put('/user/:id', userController.update);
 routes.post('/user', userController.create);
 routes.get('/user', userController.index);
 

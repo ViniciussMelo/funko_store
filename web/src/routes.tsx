@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/Navbar';
 
 import Login from './pages/login';
 import Users from './pages/users';
-import User from './pages/hero';
+import User from './pages/user';
 
 const RouterApp = () => {
   return (

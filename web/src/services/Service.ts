@@ -11,11 +11,11 @@ class Service {
 		return api.post(this.url, payload);
 	}
 
-	delete (id: number) {
+	delete (id: number | string) {
 		return api.delete(`${this.url}/${id}`);
 	}
 
-	update<T> (id: number, payload: T) {
+	update<T> (id: number | string, payload: T) {
 		return api.put(`${this.url}/${id}`, { ...payload, id });
 	}
 
