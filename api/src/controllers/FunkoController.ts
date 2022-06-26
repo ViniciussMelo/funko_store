@@ -45,6 +45,28 @@ class FunkoController {
       return response.status(400).json({ msg });
     }
   }
+
+  async index(request: Request, response: Response) {
+    const users = await User.find();
+
+    const userFunkos = [] as any;
+
+    users.forEach((user) => {
+      if (user.funkos) {
+        const funkos = [] as any;
+
+        user.funkos.forEach((funko) => funkos.push(funko));
+
+        userFunkos.push({
+          id: user._id,
+          name: user.name,
+          funkos
+        })
+      }
+    });
+
+    return response.json(userFunkos);
+  }
 }
 
 export { FunkoController };

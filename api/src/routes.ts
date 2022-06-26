@@ -23,6 +23,7 @@ routes.post('/user', userController.create);
 routes.get('/user', userController.index);
 
 routes.post('/funko', uploadFunkoImg.single("funko"), funkoController.create);
+routes.get('/funko', funkoController.index);
 
 routes.use('/image/funko', express.static(`${uploadConfig.tmpFolder}`));
 

@@ -10,7 +10,7 @@ import './styles.css';
 
 function Navbar() {
 	const [sidebar, setSidebar] = useState(false);
-	const [toolbarTitle, setToolbarTitle] = useState('User');
+	const [toolbarTitle, setToolbarTitle] = useState('Users');
 
 	const showSideBar = () => setSidebar(!sidebar);
 
