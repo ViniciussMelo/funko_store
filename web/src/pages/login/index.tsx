@@ -21,26 +21,26 @@ const Login = () => {
     try {
       const { data } = await LoginService.verify({ username, password });
       
-      localStorage.setItem('userName', username);
+      localStorage.setItem('username', username);
       localStorage.setItem('userId', data.userId);
 
-      sendToCreateHero();
+      sendToUserPage();
     } catch (err) {
       alert('Invalid password or email!');
     }
   }
 
-  const sendToCreateHero = () => {
-    navigate('/createHero');
+  const sendToUserPage = () => {
+    navigate('/users');
   }
 
   useEffect(() => {
     if (username) {
-      localStorage.removeItem('userName');
+      localStorage.removeItem('username');
     } else {
-      const storageUser = localStorage.getItem('userName');
+      const storageUser = localStorage.getItem('username');
   
-      if (storageUser) sendToCreateHero();
+      if (storageUser) sendToUserPage();
     }
   }, []);
 

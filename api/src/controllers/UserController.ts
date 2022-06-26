@@ -21,6 +21,18 @@ class UserController {
 
     return response.json(users);
   }
+
+  async getById(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const user = await User.findOne({ _id: id});
+    
+    if (!user) {
+      return response.status(400).json({ msg: 'User does not exist!' });
+    }
+
+    return response.json(user);
+  }
 }
 
 export default UserController;

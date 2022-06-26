@@ -16,6 +16,7 @@ const routes = express.Router();
 
 routes.post('/login', sessionController.verify);
 
+routes.get('/user/:id', userController.getById);
 routes.post('/user', userController.create);
 routes.get('/user', userController.index);
 
