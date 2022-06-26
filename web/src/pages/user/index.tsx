@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import 'antd/dist/antd.css';
-import './index.css';
 
 import { Form, Input, Button } from 'antd';
 
