@@ -25,7 +25,7 @@ class FunkoService extends Service {
 	}
 
   async getFunkoOnSale(params?: ParamsInterface) {
-    await axios({
+    return await axios({
       url: `${REACT_APP_URL_API}funko/onSale`,
       method: 'GET',
       params

@@ -34,6 +34,7 @@ interface DataSourceInterface {
 
 const Funkos = () => {
   const [funkos, setFunkos] = useState<DataSourceInterface[]>([]);
+  const navigate = useNavigate();
   const columns = [
     {
       title: 'Row',
@@ -95,9 +96,17 @@ const Funkos = () => {
       }
     }
   ];
-  const navigate = useNavigate();
+  
+  const isUserLogged = () => {
+    const userId = localStorage.getItem('userId');
+
+    if (!userId) return false;
+
+    return true;
+  }
 
   useEffect(() => {
+    if(!isUserLogged()) navigate('/');
     return () => {
       loadFunkos();
     }

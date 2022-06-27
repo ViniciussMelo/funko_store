@@ -21,11 +21,20 @@ const User = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
+  const isUserLogged = () => {
+    const userId = localStorage.getItem('userId');
+
+    if (!userId) return false;
+
+    return true;
+  }
+
   useEffect(() => {
+    if(!isUserLogged) navigate('/');
     return () => {
       if (!!id && id !== '0') loadUser(`${id}`);
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (Object.keys(user).length > 0) {

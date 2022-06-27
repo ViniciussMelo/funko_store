@@ -15,7 +15,13 @@ function Navbar() {
 	const showSideBar = () => setSidebar(!sidebar);
 
 	const handleLinkClick= (itemTitle: string) => {
+		if (itemTitle === 'Logout') {
+			localStorage.removeItem('userId');
+			localStorage.removeItem('username');
+			setToolbarTitle('Users');
+		} else {
 			setToolbarTitle(itemTitle);
+		}
 	}
 
 	return (
@@ -36,6 +42,9 @@ function Navbar() {
 								</Link>
 							</li>
 								{SidebarData.map((item, index) => {
+									if (item.title === 'Logout' && !localStorage.getItem('userId')) {
+										return null;
+									}
 									return (
 										<li key={index} className={item.cName}>
 											<Link to={item.path} onClick={() => {handleLinkClick(item.title)}}>

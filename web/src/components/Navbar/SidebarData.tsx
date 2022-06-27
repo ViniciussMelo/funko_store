@@ -1,5 +1,6 @@
 import { BiStore, BiUser } from "react-icons/bi";
 import { GiNinjaHeroicStance } from "react-icons/gi";
+import { FiLogOut } from "react-icons/fi";
 
 export const SidebarData = [
 	{
@@ -19,6 +20,11 @@ export const SidebarData = [
 		path: '/store',
 		icon: <BiStore />,
 		cName: 'nav-text'
+	},
+	{
+		title: 'Logout',
+		path: '/',
+		icon: <FiLogOut />,
+		cName: 'nav-text'
 	}
-]
-
+];

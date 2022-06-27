@@ -160,13 +160,17 @@ class FunkoController {
     users.forEach((user) => {
       if (user.funkos) {
         const funkosArr = user.funkos as unknown as Array<FunkoInterface>;
-        funkosArr.forEach((funko) => funkos.push({
-          id: user._id,
-          name: user.name,
-          description: funko.description,
-          value: funko.value,
-          url: funko.url
-        }));
+        funkosArr.forEach((funko) => {
+          if (funko.sale) {
+            funkos.push({
+              id: user._id,
+              name: user.name,
+              description: funko.description,
+              value: funko.value,
+              url: funko.url
+            });
+          }
+        });
       }
     });
 

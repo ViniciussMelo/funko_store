@@ -173,7 +173,11 @@ const Funko = () => {
         height: '90vh'
       }}>
         {funko.funko.url && 
-          (<div>
+          (<div
+            style={{
+              zIndex: '0'
+            }}
+          >
             <h1 style={h1Style}>{funko.funko.url}</h1>
             <img 
               style={imageStyle} 
