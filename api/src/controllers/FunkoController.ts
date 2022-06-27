@@ -98,7 +98,11 @@ class FunkoController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { description, value, sale, userId } = request.body;
+    const { description, value, sale, userId, authUserId } = request.body;
+
+    if (authUserId !== userId) {
+      return response.status(400).json({ msg: 'Cannot change the user!' });
+    }
 
     const userFunko = await User.findOne({ 'funkos._id': id});
     if (!userFunko || !userFunko.funkos) {
@@ -108,64 +112,18 @@ class FunkoController {
     const funkos = userFunko.funkos as unknown as Array<FunkoInterface>;
     const funko = funkos.find((funko) => funko._id == id) as FunkoInterface;
 
-    if (userId !== userFunko._id) {
-      let oldFunkos = userFunko.funkos as unknown as Array<FunkoInterface>;
-      oldFunkos= oldFunkos.filter((funko: FunkoInterface) => funko._id !== id);
-
-      const newUserFunko = await User.findOne({ _id: userId});
-
-      if (!newUserFunko) {
-        return response.status(400).json({ msg: 'User does not exist!' });
-      }
-
-      const funkos = [...newUserFunko.funkos || [], {
-        description,
-        value,
-        sale,
-      }];
-
-      newUserFunko.funkos = funkos;
-
-      await newUserFunko.save();
-    } else {
-      funko.description = description;
-      funko.value = value;
-      funko.sale = sale;
+    if (funko.url && request.file) {
+      deleteFile(funko.url);
+      funko.url = request.file.filename;
     }
+
+    funko.description = description;
+    funko.value = value;
+    funko.sale = sale;
+
     await userFunko.save();
 
     return response.send();
-  }
-
-  async updateImage(request: Request, response: Response) {
-    const { id, userId } = request.body;
-    const userFunko = await User.findOne({ 'funkos._id': id});
-    
-    if (!userFunko || !userFunko.funkos) {
-      return response.status(400).json({ msg: 'Funko does not exist!' });
-    }
-
-    const funkos = userFunko.funkos as unknown as Array<FunkoInterface>;
-    const funko = funkos.find((funko) => funko._id == id) as FunkoInterface;
-
-    if (!request.file) {
-      throw new Error('Invalid image!');
-    }
-
-    if (funko.url) {
-      deleteFile(funko.url);
-      funko.url = request.file.filename
-    }
-
-    const user = await User.findOne({ _id: userId });
-
-    if (!user) {
-      throw new Error('User does not exist!');
-    }
-
-    funko.url = request.file.filename;
-    console.log(userFunko)
-    await userFunko.save();
   }
 }
 

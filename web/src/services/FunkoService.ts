@@ -7,10 +7,10 @@ class FunkoService extends Service {
     super('/funko');
   }
 
-  async updateImage<T> (id: number | string, data: T) {
+  async updateFunkoAndImage<T> (id: number | string, data: T) {
     await axios({
-      url: `${REACT_APP_URL_API}funko/updateImage`,
-      method: 'POST',
+      url: `${REACT_APP_URL_API}funko/${id}`,
+      method: 'PUT',
       headers: { 
         "Content-Type": "multipart/form-data" 
       },

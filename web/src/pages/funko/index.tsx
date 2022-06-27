@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import './index.css';
+import { IdcardOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Select } from 'antd';
 import 'antd/dist/antd.css';
-import { Button, Checkbox, Form, Input, Select, Upload } from 'antd';
-import { IdcardOutlined, UploadOutlined } from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import './index.css';
 
 import { IoMdPricetag } from 'react-icons/io';
 import { MdTitle } from 'react-icons/md';
@@ -53,7 +53,10 @@ const imageStyle = {
   background: '#364d79',
   position: 'relative' as const,
   zIndex: 2,
-  maxHeight: '50vh'
+  maxHeight: '50vh',
+  minHeight: '50vh',
+  maxWidth: '30vw',
+  minWidth: '30vw'
 };
 
 const { Option } = Select;
@@ -63,6 +66,8 @@ const Funko = () => {
   
   const { id } = useParams();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
   const [funko, setFunko] = useState<UserFunkoInterface>({
     funko: {
       description: '',
@@ -79,7 +84,7 @@ const Funko = () => {
       if (!!id) loadFunko(`${id}`);
       loadUsers();
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (Object.keys(funko).length > 0) {
@@ -111,20 +116,26 @@ const Funko = () => {
     id,
     sale
   }: FormDataInterface) => {
-    await FunkoService.update(funko.funko._id, {
-      description,
-      value,
-      userId: id,
-      sale
-    });
-    
-    if (selectedImage) {
+    if (funko.funko._id) {
+      const authUserId = localStorage.getItem('userId') || '';
+
       const formData = new FormData();
-      formData.append('funko', selectedImage);
-      formData.append('id', funko.funko._id);
-      formData.append('userId', funko.id);
-      await FunkoService.updateImage(funko.funko._id, formData);
+      formData.append('userId', id);
+      formData.append('description', description);
+      formData.append('value', `${value}`);
+      formData.append('sale', `${sale}`);
+      formData.append('authUserId', authUserId);
+
+      if (selectedImage) {
+        formData.append('funko', selectedImage);
+      }
+
+      await FunkoService.updateFunkoAndImage(funko.funko._id, formData);
+    } else {
+      // create funko
     }
+
+    navigate('/funkos');
   }
 
   const onChangeSale = (event: CheckboxChangeEvent) => {
@@ -202,6 +213,7 @@ const Funko = () => {
             >
               <Select
                 style={{marginLeft: '15px'}}
+                disabled={!!funko.funko._id}
               >
                 {users.map((user, index) => (
                   <Option key={index} value={user._id}>{user.name}</Option>
