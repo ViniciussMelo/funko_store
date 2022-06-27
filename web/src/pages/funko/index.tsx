@@ -81,7 +81,7 @@ const Funko = () => {
 
   useEffect(() => {
     return () => {
-      if (!!id) loadFunko(`${id}`);
+      if (!!id && id !== '0') loadFunko(`${id}`);
       loadUsers();
     }
   }, [id]);
@@ -116,9 +116,9 @@ const Funko = () => {
     id,
     sale
   }: FormDataInterface) => {
+    const authUserId = localStorage.getItem('userId') || '';
+    
     if (funko.funko._id) {
-      const authUserId = localStorage.getItem('userId') || '';
-
       const formData = new FormData();
       formData.append('userId', id);
       formData.append('description', description);
@@ -132,7 +132,22 @@ const Funko = () => {
 
       await FunkoService.updateFunkoAndImage(funko.funko._id, formData);
     } else {
-      // create funko
+      if (!id) {
+        return alert('Select an user!');
+      }
+      if (!selectedImage) {
+        return alert('Select an image!');
+      }      
+
+      const formData = new FormData();
+      formData.append('userId', id);
+      formData.append('description', description);
+      formData.append('value', `${value}`);
+      formData.append('sale', `${sale}`);
+      formData.append('authUserId', authUserId);
+      formData.append('funko', selectedImage);
+
+      await FunkoService.create(formData);
     }
 
     navigate('/funkos');
