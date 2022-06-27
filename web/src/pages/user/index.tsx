@@ -23,7 +23,7 @@ const User = () => {
 
   useEffect(() => {
     return () => {
-      if (!!id) loadUser(`${id}`);
+      if (!!id && id !== '0') loadUser(`${id}`);
     }
   }, [id]);
 

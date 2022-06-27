@@ -25,6 +25,7 @@ routes.get('/user', userController.index);
 routes.post('/funko', uploadFunkoImg.single("funko"), funkoController.create);
 routes.put('/funko/:id', uploadFunkoImg.single("funko"), funkoController.update);
 routes.get('/funko/:id', funkoController.getById);
+routes.delete('/funko/:id', funkoController.delete);
 routes.get('/funko', funkoController.index);
 
 routes.use('/image/funko', express.static(`${uploadConfig.tmpFolder}`));

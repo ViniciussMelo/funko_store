@@ -115,16 +115,13 @@ const Funko = () => {
     value,
     id,
     sale
-  }: FormDataInterface) => {
-    const authUserId = localStorage.getItem('userId') || '';
-    
+  }: FormDataInterface) => {    
     if (funko.funko._id) {
       const formData = new FormData();
       formData.append('userId', id);
       formData.append('description', description);
       formData.append('value', `${value}`);
       formData.append('sale', `${sale}`);
-      formData.append('authUserId', authUserId);
 
       if (selectedImage) {
         formData.append('funko', selectedImage);
@@ -132,19 +129,21 @@ const Funko = () => {
 
       await FunkoService.updateFunkoAndImage(funko.funko._id, formData);
     } else {
+      if(!value || value < 1) {
+        return alert('Type a valid value!');
+      }
       if (!id) {
         return alert('Select an user!');
       }
       if (!selectedImage) {
         return alert('Select an image!');
-      }      
+      }
 
       const formData = new FormData();
       formData.append('userId', id);
       formData.append('description', description);
       formData.append('value', `${value}`);
       formData.append('sale', `${sale}`);
-      formData.append('authUserId', authUserId);
       formData.append('funko', selectedImage);
 
       await FunkoService.create(formData);
@@ -228,6 +227,7 @@ const Funko = () => {
             >
               <Input 
                 type="number"
+                min="0"
                 prefix={<IoMdPricetag className='site-form-item-icon' />} placeholder='value'
                 value={funko.funko.value}
               />

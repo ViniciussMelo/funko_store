@@ -80,6 +80,10 @@ class FunkoController {
   async getById(request: Request, response: Response) {
     const { id } = request.params;
 
+    if (!Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid id');
+    }
+
     const userFunko = await User.findOne({ 'funkos._id': id });
     
     if (!userFunko || !userFunko.funkos) {
@@ -98,15 +102,15 @@ class FunkoController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { description, value, sale, userId, authUserId } = request.body;
-
-    if (authUserId !== userId) {
-      return response.status(400).json({ msg: 'Cannot change the user!' });
-    }
+    const { description, value, sale, userId } = request.body;
 
     const userFunko = await User.findOne({ 'funkos._id': id});
     if (!userFunko || !userFunko.funkos) {
       return response.status(400).json({ msg: 'Funko does not exist!' });
+    }
+
+    if (userFunko._id != userId) {
+      return response.status(400).json({ msg: 'Cannot change the user!' });
     }
 
     const funkos = userFunko.funkos as unknown as Array<FunkoInterface>;
@@ -122,6 +126,27 @@ class FunkoController {
     funko.sale = sale;
 
     await userFunko.save();
+
+    return response.send();
+  }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const user = await User.findOne({ 'funko._id': id });
+
+    if (!user) {
+      return response.status(400).json({ msg: 'Funko does not exist!' });
+    }
+
+    const funkos = user.funkos as unknown as Array<FunkoInterface>;
+    const funkoIndex = funkos.findIndex((funko) => funko._id == id);
+    const funko = funkos[funkoIndex] as unknown as FunkoInterface;
+
+    deleteFile(funko.url);
+    user.funkos = funkos.filter((funko) => funko._id != id);
+
+    await user.save();
 
     return response.send();
   }

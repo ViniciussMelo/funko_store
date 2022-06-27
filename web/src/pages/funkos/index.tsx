@@ -110,13 +110,14 @@ const Funkos = () => {
 
   const loadFunkos = async () => {
     const { data } = await FunkoService.findAll();
+    let row = 1;
 
     const funkosFormatted: Array<DataSourceInterface> = [];
-    data.forEach((userFunko: UserFunkoInterface, index: number) => {
-      userFunko.funkos.forEach((funko: FunkoInterface, funkoIndex: number) => {
+    data.forEach((userFunko: UserFunkoInterface) => {
+      userFunko.funkos.forEach((funko: FunkoInterface) => {
         funkosFormatted.push({
           key: funko._id,
-          row: (index + funkoIndex) + 1,
+          row,
           id: funko._id,
           userId: userFunko.id,
           username: userFunko.name,
@@ -124,6 +125,8 @@ const Funkos = () => {
           value: funko.value,
           sale: funko.sale ? 'true' : 'false',
         });
+
+        row++;
       });
     });
 
