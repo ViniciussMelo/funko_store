@@ -1,4 +1,4 @@
-import { BiUser } from "react-icons/bi";
+import { BiStore, BiUser } from "react-icons/bi";
 import { GiNinjaHeroicStance } from "react-icons/gi";
 
 export const SidebarData = [
@@ -12,6 +12,12 @@ export const SidebarData = [
 		title: 'Funkos',
 		path: '/funkos',
 		icon: <GiNinjaHeroicStance />,
+		cName: 'nav-text'
+	},
+	{
+		title: 'Store',
+		path: '/store',
+		icon: <BiStore />,
 		cName: 'nav-text'
 	}
 ]

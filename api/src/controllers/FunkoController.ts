@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { Types } from "mongoose";
+import { SortOrder, Types } from "mongoose";
 
 import { User } from "../models/User";
 import { deleteFile } from "../utils/file";
+import { sortArray } from "../utils/sortArray";
 
 interface FunkoInterface {
   _id: string;
@@ -56,8 +57,8 @@ class FunkoController {
   }
 
   async index(request: Request, response: Response) {
+    
     const users = await User.find();
-
     const userFunkos = [] as any;
 
     users.forEach((user) => {
@@ -149,6 +150,33 @@ class FunkoController {
     await user.save();
 
     return response.send();
+  }
+
+  async getFunkoOnSale(request: Request, response: Response) {
+    const { sortName = 'name', sortDirection = 'asc' } = request.query;
+    const users = await User.find();
+    const funkos = [] as any;
+
+    users.forEach((user) => {
+      if (user.funkos) {
+        const funkosArr = user.funkos as unknown as Array<FunkoInterface>;
+        funkosArr.forEach((funko) => funkos.push({
+          id: user._id,
+          name: user.name,
+          description: funko.description,
+          value: funko.value,
+          url: funko.url
+        }));
+      }
+    });
+
+    const funkosSorted = sortArray(
+      funkos,
+      `${sortName}`,
+      sortDirection === 'asc'
+    );
+
+    return response.json({ funkos: funkosSorted });
   }
 }
 

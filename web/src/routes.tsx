@@ -5,6 +5,7 @@ import Funkos from './pages/funkos';
 import Funko from './pages/funko';
 import Login from './pages/login';
 import Users from './pages/users';
+import Store from './pages/store';
 import User from './pages/user';
 
 const RouterApp = () => {
@@ -17,6 +18,7 @@ const RouterApp = () => {
         <Route path="/users/:id" element={<User />} />
         <Route path="/funkos" element={<Funkos />} />
         <Route path="/funkos/:id" element={<Funko />} />
+        <Route path="/store" element={<Store />} />
       </Routes>
     </BrowserRouter>
   )
