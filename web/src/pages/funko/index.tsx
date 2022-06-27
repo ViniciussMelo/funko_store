@@ -148,23 +148,31 @@ const Funko = () => {
 
   return (
     <>
-      <div style={{
+      <div style={funko.funko.url ? 
+      {
         display: 'flex',
         justifyContent: "center"
+      } : {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '90vh'
       }}>
-        <div>
-          <h1 style={h1Style}>{funko.funko.url}</h1>
-          <img 
-            style={imageStyle} 
-            src={funko.funko.url && REACT_APP_IMAGE_URL + funko.funko.url} 
-            id="firstMovie" 
-            alt="firstMovie"
-          />
-        </div>
-        <div style={{
+        {funko.funko.url && 
+          (<div>
+            <h1 style={h1Style}>{funko.funko.url}</h1>
+            <img 
+              style={imageStyle} 
+              src={funko.funko.url && REACT_APP_IMAGE_URL + funko.funko.url} 
+              id="funko" 
+              alt="funko"
+            />
+          </div>)
+        }
+        <div style={funko.funko.url ? {
           marginLeft: '100px',
           width: '100vh'
-        }}>
+        } : {}}>
           <Form
             form={form}
             name='normal_login'
@@ -204,6 +212,7 @@ const Funko = () => {
               ]}
             >
               <Input 
+                type="number"
                 prefix={<IoMdPricetag className='site-form-item-icon' />} placeholder='value'
                 value={funko.funko.value}
               />
