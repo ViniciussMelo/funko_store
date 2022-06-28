@@ -8,7 +8,7 @@ To run the program on your computer, the following configurations / installation
 > - **Node** with version equal or higher than 14.19.0 - [Node Donwload](https://nodejs.org/pt-br/download/)
 > - **Npm** with version equal or higher than 6.14.16 - [Npm Download](https://www.npmjs.com/package/download) or **Yarn** with version equal or higher than 1.22.0 [Yarn Download](https://classic.yarnpkg.com/en/docs/install/)
 > - **Git** with version equal or higher than 2.25.1 - [Git Donwload](https://git-scm.com/downloads)
-> - **Mongodb** with version equal or higher than 6.4.0 - [Mongoose Donwload](https://www.mongodb.com/docs/manual/installation/)
+> - **Mongodb** with version equal or higher than 6.4.0 - [Mongodb Donwload](https://www.mongodb.com/docs/manual/installation/)
 
 ## Installation
 > Clone this project in your computer with the command:
